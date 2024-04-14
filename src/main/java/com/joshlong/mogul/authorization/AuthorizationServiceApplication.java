@@ -18,7 +18,7 @@ import java.util.Map;
 // @ImportRuntimeHints(AuthorizationServiceApplication.Hints.class)
 public class AuthorizationServiceApplication {
 
-	@GetMapping("/hello")
+	@GetMapping("/")
 	Map<String, Object> hello() {
 		return Map.of("message", "Hello World");
 	}

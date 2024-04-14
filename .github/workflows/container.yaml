@@ -40,7 +40,7 @@ jobs:
           APP_NAME=authorization-service
           IMAGE_NAME=us-docker.pkg.dev/${GCLOUD_PROJECT}/mogul-artifact-registry/${APP_NAME}:latest
           echo "the image name is $IMAGE_NAME "
-          ./mvnw -DskipTests=true spring-javaformat:apply clean package spring-boot:build-image -Dspring-boot.build-image.imageName=$IMAGE_NAME
+          ./mvnw -Pnative -DskipTests=true spring-javaformat:apply clean package spring-boot:build-image -Dspring-boot.build-image.imageName=$IMAGE_NAME
           docker push $IMAGE_NAME
 
       - name: Invoke Pipeline
