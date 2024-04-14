@@ -1,0 +1,43 @@
+
+server:
+  port: 9090
+  tomcat:
+    remoteip:
+      trusted-proxies: ".*"
+
+management:
+  endpoint:
+    health:
+      probes:
+        enabled: true
+    web:
+      exposure:
+        include: health
+
+spring:
+
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:sql/schema/*sql
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:localhost}/${DB_SCHEMA:postgres}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+
+  application:
+    name: authorization-service
+
+  security:
+    oauth2:
+      authorizationserver:
+        client:
+          mogul:
+            require-authorization-consent: true
+            registration:
+              client-id: mogul
+              client-secret: "{bcrypt}$2a$10$bYtpfc5jQ9e/7I9OCBFKH.5LoFZBqxuswEO488WnHKYnPtuUNx5UK"
+              authorization-grant-types: client_credentials, authorization_code, refresh_token
+              redirect-uris: http://127.0.0.1:1010/login/oauth2/code/spring
+              scopes: user.read,user.write,openid
+              client-authentication-methods: client_secret_basic
