@@ -10,12 +10,12 @@ management:
     health:
       probes:
         enabled: true
+      show-details: always
+  endpoints:
     web:
       exposure:
-        include: health
-
+        include: *
 spring:
-
   sql:
     init:
       mode: always
