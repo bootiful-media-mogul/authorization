@@ -4,12 +4,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.event.EventListener;
-/*import org.springframework.security.core.userdetails.User;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;*/
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -30,7 +25,11 @@ public class AuthorizationServiceApplication {
 
 	@EventListener(ApplicationReadyEvent.class)
 	void begin() {
-		LogFactory.getLog(getClass()).info("initializing authorization-service");
+		var log = LogFactory.getLog(getClass());
+		log.info("=======================================");
+		log.info("initializing authorization-service");
+		log.info(System.getenv("MESSAGE"));
+		log.info("=======================================");
 	}
 
 	/*
