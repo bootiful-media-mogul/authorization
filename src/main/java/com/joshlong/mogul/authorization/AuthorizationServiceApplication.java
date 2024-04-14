@@ -3,33 +3,45 @@ package com.joshlong.mogul.authorization;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.event.EventListener;
-import org.springframework.security.core.userdetails.User;
+/*import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;*/
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.Map;
 
 //@EnableConfigurationProperties(AuthorizationApiProperties.class)
 @SpringBootApplication
+@Controller
+@ResponseBody
 // @ImportRuntimeHints(AuthorizationServiceApplication.Hints.class)
 public class AuthorizationServiceApplication {
 
-	@EventListener
+	@GetMapping("/hello")
+	Map<String, Object> hello() {
+		return Map.of("message", "Hello World");
+	}
+
+	@EventListener(ApplicationReadyEvent.class)
 	void begin() {
 		LogFactory.getLog(getClass()).info("initializing authorization-service");
 	}
 
-	@Bean
-	PasswordEncoder passwordEncoderFactories() {
-		return PasswordEncoderFactories.createDelegatingPasswordEncoder();
-	}
-
-	@Bean
-	InMemoryUserDetailsManager inMemoryUserDetailsManager(PasswordEncoder pe) {
-		return new InMemoryUserDetailsManager(
-				User.builder().username("jlong").password(pe.encode("pw")).roles("USER").build());
-	}
+	/*
+	 * @Bean PasswordEncoder passwordEncoderFactories() { return
+	 * PasswordEncoderFactories.createDelegatingPasswordEncoder(); }
+	 *
+	 * @Bean InMemoryUserDetailsManager inMemoryUserDetailsManager(PasswordEncoder pe) {
+	 * return new InMemoryUserDetailsManager(
+	 * User.builder().username("jlong").password(pe.encode("pw")).roles("USER").build());
+	 * }
+	 */
 
 	public static void main(String[] args) {
 		SpringApplication.run(AuthorizationServiceApplication.class, args);
