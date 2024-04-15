@@ -29,9 +29,9 @@ public class AuthorizationServiceApplication {
 			.body(Map.of("serviceName", applicationName));
 
 		return route()//
-				.GET("/hello", responseHandlerFunction)//
-				.GET("/", responseHandlerFunction)//
-				.build();
+			.GET("/hello", responseHandlerFunction)//
+			.GET("/", responseHandlerFunction)//
+			.build();
 	}
 
 	/*
