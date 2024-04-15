@@ -1,36 +1,34 @@
 package com.joshlong.mogul.authorization;
 
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.context.event.ApplicationReadyEvent;
-import org.springframework.context.event.EventListener;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.context.annotation.Bean;
+import org.springframework.web.servlet.function.RouterFunction;
+import org.springframework.web.servlet.function.ServerResponse;
 
 import java.util.Map;
 
-//@EnableConfigurationProperties(AuthorizationApiProperties.class)
-@SpringBootApplication
-@Controller
-@ResponseBody
+import static org.springframework.web.servlet.function.RouterFunctions.route;
+
+// @EnableConfigurationProperties(AuthorizationApiProperties.class)
 // @ImportRuntimeHints(AuthorizationServiceApplication.Hints.class)
+@SpringBootApplication
 public class AuthorizationServiceApplication {
 
-	@GetMapping("/")
-	Map<String, Object> hello() {
-		return Map.of("message", "Hello World");
-	}
 
-	@EventListener(ApplicationReadyEvent.class)
-	void begin() {
+	@Bean
+	RouterFunction<ServerResponse> http(@Value("${spring.application.name}") String applicationName) {
 		var log = LogFactory.getLog(getClass());
 		log.info("=======================================");
-		log.info("initializing authorization-service");
-		log.info(System.getenv("MESSAGE"));
+		log.info("initializing " + applicationName);
 		log.info("=======================================");
+		return route()
+				.GET("/hello", request -> ServerResponse.ok().body(Map.of("serviceName", applicationName)))
+				.build();
 	}
+
 
 	/*
 	 * @Bean PasswordEncoder passwordEncoderFactories() { return
