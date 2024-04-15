@@ -20,7 +20,9 @@ public class AuthorizationServiceApplication {
 
 	@Bean
 	RouterFunction<ServerResponse> http(@Value("${spring.application.name}") String applicationName) {
+
 		var log = LogFactory.getLog(getClass());
+
 		log.info("=======================================");
 		log.info("initializing " + applicationName);
 		log.info("=======================================");
