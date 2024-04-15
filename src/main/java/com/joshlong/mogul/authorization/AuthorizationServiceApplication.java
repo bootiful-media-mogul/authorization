@@ -18,7 +18,6 @@ import static org.springframework.web.servlet.function.RouterFunctions.route;
 @SpringBootApplication
 public class AuthorizationServiceApplication {
 
-
 	@Bean
 	RouterFunction<ServerResponse> http(@Value("${spring.application.name}") String applicationName) {
 		var log = LogFactory.getLog(getClass());
@@ -26,15 +25,11 @@ public class AuthorizationServiceApplication {
 		log.info("initializing " + applicationName);
 		log.info("=======================================");
 
-		var responseHandlerFunction = (HandlerFunction<ServerResponse>)
-				request -> ServerResponse.ok().body(Map.of("serviceName", applicationName));
+		var responseHandlerFunction = (HandlerFunction<ServerResponse>) request -> ServerResponse.ok()
+			.body(Map.of("serviceName", applicationName));
 
-		return route()
-				.GET("/hello", responseHandlerFunction)
-				.GET("/", responseHandlerFunction)
-				.build();
+		return route().GET("/hello", responseHandlerFunction).GET("/", responseHandlerFunction).build();
 	}
-
 
 	/*
 	 * @Bean PasswordEncoder passwordEncoderFactories() { return
