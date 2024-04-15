@@ -28,7 +28,10 @@ public class AuthorizationServiceApplication {
 		var responseHandlerFunction = (HandlerFunction<ServerResponse>) request -> ServerResponse.ok()
 			.body(Map.of("serviceName", applicationName));
 
-		return route().GET("/hello", responseHandlerFunction).GET("/", responseHandlerFunction).build();
+		return route()//
+				.GET("/hello", responseHandlerFunction)//
+				.GET("/", responseHandlerFunction)//
+				.build();
 	}
 
 	/*
