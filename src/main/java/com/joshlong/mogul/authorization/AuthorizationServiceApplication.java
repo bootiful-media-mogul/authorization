@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.web.servlet.function.HandlerFunction;
 import org.springframework.web.servlet.function.RouterFunction;
 import org.springframework.web.servlet.function.ServerResponse;
 
@@ -24,8 +25,13 @@ public class AuthorizationServiceApplication {
 		log.info("=======================================");
 		log.info("initializing " + applicationName);
 		log.info("=======================================");
+
+		var responseHandlerFunction = (HandlerFunction<ServerResponse>)
+				request -> ServerResponse.ok().body(Map.of("serviceName", applicationName));
+
 		return route()
-				.GET("/hello", request -> ServerResponse.ok().body(Map.of("serviceName", applicationName)))
+				.GET("/hello", responseHandlerFunction)
+				.GET("/", responseHandlerFunction)
 				.build();
 	}
 
