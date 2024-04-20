@@ -26,12 +26,13 @@ jobs:
           gcloud config set project $GCLOUD_PROJECT 
           gcloud --quiet auth configure-docker us-docker.pkg.dev
 
-      - uses: actions/setup-java@v3
+      - uses: graalvm/setup-graalvm@v1
         with:
-          distribution: 'adopt'
-          java-version: 21
+          java-version: '21'
+          distribution: 'graalvm'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Set up Docker Buildx
+      - name: Set up Docker
         uses: docker/setup-buildx-action@v1
 
       - name: Publish Container
@@ -40,7 +41,9 @@ jobs:
           APP_NAME=authorization-service
           IMAGE_NAME=us-docker.pkg.dev/${GCLOUD_PROJECT}/mogul-artifact-registry/${APP_NAME}:latest
           echo "the image name is $IMAGE_NAME "
-          ./mvnw -Pnative -DskipTests=true spring-javaformat:apply clean package spring-boot:build-image -Dspring-boot.build-image.imageName=$IMAGE_NAME
+          ./mvnw -DskipTests -Pnative native:compile 
+          cd $GITHUB_WORKSPACE 
+          docker build . -t $IMAGE_NAME 
           docker push $IMAGE_NAME
 
       - name: Invoke Pipeline
