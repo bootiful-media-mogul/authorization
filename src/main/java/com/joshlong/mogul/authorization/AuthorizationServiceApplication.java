@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.aot.hint.RuntimeHints;
 import org.springframework.aot.hint.RuntimeHintsRegistrar;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.actuate.autoconfigure.security.servlet.EndpointRequest;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -51,6 +52,11 @@ public class AuthorizationServiceApplication {
 			Set.of("data", "schema").forEach(folder -> hints.resources().registerPattern("sql/" + folder + "/*sql"));
 		}
 
+	}
+
+	@Bean
+	ApplicationRunner hello() {
+		return args -> System.out.println("hello, authorization server!");
 	}
 
 	private final static Logger log = LoggerFactory.getLogger(AuthorizationServiceApplication.class);
@@ -126,12 +132,3 @@ public class AuthorizationServiceApplication {
 	}
 
 }
-
-/*
- *
- * @ConfigurationProperties(prefix = "mogul.authorization") record
- * AuthorizationApiProperties(UserSpecification[] users) { }
- *
- * record UserSpecification(String password, String username, String[] roles) { }
- *
- */
