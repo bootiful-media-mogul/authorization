@@ -39,9 +39,9 @@ jobs:
       - name: Publish Container
         env:
           APP_NAME: authorization-service
-          IMAGE_NAME: "us-docker.pkg.dev/${GCLOUD_PROJECT}/mogul-artifact-registry/${APP_NAME}:latest"
-          MAVEN_CLI_OPTS: "--batch-mode --no-transfer-progress"
+          MAVEN_ARGS: "--batch-mode --no-transfer-progress"
         run: |
+          IMAGE_NAME="us-docker.pkg.dev/${GCLOUD_PROJECT}/mogul-artifact-registry/${APP_NAME}:latest"
           cd $GITHUB_WORKSPACE
           ./mvnw -DskipTests -Pnative native:compile
           docker build . -f  .github/workflows/Dockerfile  -t $IMAGE_NAME --build-arg APP_NAME=$APP_NAME
