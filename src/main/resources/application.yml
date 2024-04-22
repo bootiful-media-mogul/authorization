@@ -27,17 +27,3 @@ spring:
 
   application:
     name: authorization-service
-
-#  security:
-#    oauth2:
-#      authorizationserver:
-#        client:
-#          mogul:
-#            require-authorization-consent: true
-#            registration:
-#              client-id: mogul
-#              client-secret: "${AUTHORIZATION_SERVICE_CLIENTS_MOGUL_CLIENT_SECRET}:{bcrypt}$2a$10$bYtpfc5jQ9e/7I9OCBFKH.5LoFZBqxuswEO488WnHKYnPtuUNx5UK"
-#              authorization-grant-types: authorization_code, refresh_token
-#              redirect-uris: http://127.0.0.1:1010/login/oauth2/code/spring
-#              scopes: user.read,user.write,openid
-#              client-authentication-methods: client_secret_basic
