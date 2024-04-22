@@ -8,6 +8,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.actuate.autoconfigure.security.servlet.EndpointRequest;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ImportRuntimeHints;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.MediaType;
 import org.springframework.security.config.Customizer;
@@ -28,7 +29,7 @@ import java.util.Set;
  */
 // @EnableConfigurationProperties(AuthorizationApiProperties.class)
 @SpringBootApplication
-// @ImportRuntimeHints(AuthorizationServiceApplication.Hints.class)
+@ImportRuntimeHints(AuthorizationServiceApplication.Hints.class)
 public class AuthorizationServiceApplication {
 
 	static class Hints implements RuntimeHintsRegistrar {
