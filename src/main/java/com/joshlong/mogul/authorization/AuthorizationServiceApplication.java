@@ -51,9 +51,13 @@ public class AuthorizationServiceApplication {
 	@Order(1)
 	SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http) throws Exception {
 		OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http);
-		http.getConfigurer(OAuth2AuthorizationServerConfigurer.class).oidc(Customizer.withDefaults());
-		http.exceptionHandling((exceptions) -> exceptions.defaultAuthenticationEntryPointFor(
-				new LoginUrlAuthenticationEntryPoint("/login"), new MediaTypeRequestMatcher(MediaType.TEXT_HTML)))
+		http.getConfigurer(OAuth2AuthorizationServerConfigurer.class)//
+			.oidc(Customizer.withDefaults());
+		http.exceptionHandling((exceptions) -> //
+		exceptions.defaultAuthenticationEntryPointFor(//
+				new LoginUrlAuthenticationEntryPoint("/login"), //
+				new MediaTypeRequestMatcher(MediaType.TEXT_HTML))//
+		)//
 			.oauth2ResourceServer((rs) -> rs.jwt(Customizer.withDefaults()));
 		return http.build();
 	}
@@ -61,12 +65,14 @@ public class AuthorizationServiceApplication {
 	@Bean
 	@Order(2)
 	SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
-		http.authorizeHttpRequests((authorize) -> authorize.requestMatchers(EndpointRequest.toAnyEndpoint())
-			.permitAll()
+		return http.authorizeHttpRequests((authorize) -> authorize //
+			.requestMatchers(EndpointRequest.toAnyEndpoint())
+			.permitAll()//
 			.anyRequest()
-			.authenticated()).formLogin(Customizer.withDefaults());
-
-		return http.build();
+			.authenticated()//
+		)//
+			.formLogin(Customizer.withDefaults()) //
+			.build();
 	}
 
 	/*
