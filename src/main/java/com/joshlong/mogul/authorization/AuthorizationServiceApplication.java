@@ -54,11 +54,6 @@ public class AuthorizationServiceApplication {
 
 	}
 
-	@Bean
-	ApplicationRunner hello() {
-		return args -> System.out.println("hello, authorization server!");
-	}
-
 	private final static Logger log = LoggerFactory.getLogger(AuthorizationServiceApplication.class);
 
 	public static void main(String[] args) {
