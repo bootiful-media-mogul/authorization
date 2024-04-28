@@ -5,7 +5,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.aot.hint.RuntimeHints;
 import org.springframework.aot.hint.RuntimeHintsRegistrar;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.actuate.autoconfigure.security.servlet.EndpointRequest;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -93,7 +92,7 @@ public class AuthorizationServiceApplication {
 			@Value("${AUTHORIZATION_SERVICE_USERS_JLONG_USERNAME:jlong}") String username,
 			@Value("${AUTHORIZATION_SERVICE_USERS_JLONG_PASSWORD:pw}") String password) {
 		// todo
-		log.info("got the following users: " + username);
+		log.debug("got the following users: " + username + ":" + password);
 		var user = User.withUsername(username)//
 			.password(passwordEncoder.encode(password))//
 			.roles("user", "admin")//
@@ -107,7 +106,7 @@ public class AuthorizationServiceApplication {
 			@Value("${AUTHORIZATION_SERVICE_CLIENTS_MOGUL_CLIENT_SECRET:mogul}") String clientSecret,
 			@Value("${MOGUL_GATEWAY_HOST:http://127.0.0.1:1010}/login/oauth2/code/spring") URI redirectUri) {
 		// todo remove this
-		log.info("DEBUG: " + clientId + ":" + redirectUri);
+		log.info("DEBUG: " + clientId + ":" + clientSecret + ":" + redirectUri);
 		var rc = RegisteredClient.withId(clientId)
 			.clientId(clientId)
 			.authorizationGrantTypes(c -> c
