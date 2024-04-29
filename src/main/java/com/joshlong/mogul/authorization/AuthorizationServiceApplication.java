@@ -78,12 +78,13 @@ public class AuthorizationServiceApplication {
 	@Bean
 	@Order(2)
 	SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
-		return http.authorizeHttpRequests((authorize) -> authorize //
-			.requestMatchers(EndpointRequest.toAnyEndpoint())
-			.permitAll()//
-			.anyRequest()
-			.authenticated()//
-		)//
+		return http//
+			.authorizeHttpRequests((authorize) -> authorize //
+				.requestMatchers(EndpointRequest.toAnyEndpoint())
+				.permitAll()//
+				.anyRequest()
+				.authenticated()//
+			)//
 			.formLogin(Customizer.withDefaults()) //
 			.requiresChannel(c -> c.anyRequest().requiresSecure())
 			.build();
