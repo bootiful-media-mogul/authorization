@@ -114,7 +114,7 @@ public class AuthorizationServiceApplication {
 		var rc = RegisteredClient.withId(clientId)
 			.clientId(clientId)
 			.authorizationGrantTypes(c -> c
-				.addAll(Set.of(AuthorizationGrantType.AUTHORIZATION_CODE, AuthorizationGrantType.REFRESH_TOKEN)))
+				.addAll(Set.of(AuthorizationGrantType.AUTHORIZATION_CODE, AuthorizationGrantType.REFRESH_TOKEN)))//
 			.clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
 			.clientSecret(passwordEncoder.encode(clientSecret))
 			.redirectUri(redirectUri.toString())
