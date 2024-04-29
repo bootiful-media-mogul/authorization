@@ -85,6 +85,7 @@ public class AuthorizationServiceApplication {
 			.authenticated()//
 		)//
 			.formLogin(Customizer.withDefaults()) //
+			.requiresChannel(c -> c.anyRequest().requiresSecure())
 			.build();
 	}
 
