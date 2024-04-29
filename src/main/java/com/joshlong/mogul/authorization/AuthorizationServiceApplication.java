@@ -56,7 +56,8 @@ public class AuthorizationServiceApplication {
 	private final static Logger log = LoggerFactory.getLogger(AuthorizationServiceApplication.class);
 
 	public static void main(String[] args) {
-		System.getenv().forEach((k, v) -> System.out.println(k + "=" + v));
+		if (System.getenv("DEBUG") != null && System.getenv("DEBUG").equals("true"))
+			System.getenv().forEach((k, v) -> System.out.println(k + "=" + v));
 		SpringApplication.run(AuthorizationServiceApplication.class, args);
 	}
 
@@ -91,11 +92,12 @@ public class AuthorizationServiceApplication {
 	}
 
 	@Bean
-	InMemoryUserDetailsManager users(PasswordEncoder passwordEncoder,
+	InMemoryUserDetailsManager users(PasswordEncoder passwordEncoder, @Value("${debug:false}") boolean debug,
 			@Value("${AUTHORIZATION_SERVICE_USERS_JLONG_USERNAME:jlong}") String username,
 			@Value("${AUTHORIZATION_SERVICE_USERS_JLONG_PASSWORD:pw}") String password) {
 		// todo
-		log.debug("got the following users: " + username + ":" + password);
+		if (debug)
+			log.debug("got the following users: " + username + ":" + password);
 		var user = User//
 			.withUsername(username)//
 			.password(passwordEncoder.encode(password))//
@@ -108,9 +110,11 @@ public class AuthorizationServiceApplication {
 	RegisteredClientRepository registeredClients(PasswordEncoder passwordEncoder,
 			@Value("${AUTHORIZATION_SERVICE_CLIENTS_MOGUL_CLIENT_ID:mogul}") String clientId,
 			@Value("${AUTHORIZATION_SERVICE_CLIENTS_MOGUL_CLIENT_SECRET:mogul}") String clientSecret,
-			@Value("${MOGUL_GATEWAY_HOST:http://127.0.0.1:1010}/login/oauth2/code/spring") URI redirectUri) {
+			@Value("${MOGUL_GATEWAY_HOST:http://127.0.0.1:1010}/login/oauth2/code/spring") URI redirectUri,
+			@Value("${debug:false}") boolean debug) {
 		// todo remove this
-		log.info("DEBUG: " + clientId + ":" + clientSecret + ":" + redirectUri);
+		if (debug)
+			log.info("DEBUG: " + clientId + ":" + clientSecret + ":" + redirectUri);
 		var rc = RegisteredClient.withId(clientId)
 			.clientId(clientId)
 			.authorizationGrantTypes(c -> c
