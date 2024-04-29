@@ -86,7 +86,7 @@ public class AuthorizationServiceApplication {
 				.authenticated()//
 			)//
 			.formLogin(Customizer.withDefaults()) //
-			.requiresChannel(c -> c.anyRequest().requiresSecure())
+			.requiresChannel(c -> c.anyRequest().requiresSecure())//
 			.build();
 	}
 
@@ -96,7 +96,8 @@ public class AuthorizationServiceApplication {
 			@Value("${AUTHORIZATION_SERVICE_USERS_JLONG_PASSWORD:pw}") String password) {
 		// todo
 		log.debug("got the following users: " + username + ":" + password);
-		var user = User.withUsername(username)//
+		var user = User//
+			.withUsername(username)//
 			.password(passwordEncoder.encode(password))//
 			.roles("user", "admin")//
 			.build();
