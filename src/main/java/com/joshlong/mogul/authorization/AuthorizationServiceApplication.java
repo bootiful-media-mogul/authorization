@@ -56,6 +56,7 @@ public class AuthorizationServiceApplication {
 	private final static Logger log = LoggerFactory.getLogger(AuthorizationServiceApplication.class);
 
 	public static void main(String[] args) {
+		System.getenv().forEach((k, v) -> System.out.println(k + "=" + v));
 		SpringApplication.run(AuthorizationServiceApplication.class, args);
 	}
 
