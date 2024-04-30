@@ -1,7 +1,5 @@
 package com.joshlong.mogul.authorization;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.aot.hint.RuntimeHints;
 import org.springframework.aot.hint.RuntimeHintsRegistrar;
 import org.springframework.beans.factory.annotation.Value;
@@ -53,11 +51,7 @@ public class AuthorizationServiceApplication {
 
 	}
 
-	private final static Logger log = LoggerFactory.getLogger(AuthorizationServiceApplication.class);
-
 	public static void main(String[] args) {
-		if (System.getenv("DEBUG") != null && System.getenv("DEBUG").equals("true"))
-			System.getenv().forEach((k, v) -> System.out.println(k + "=" + v));
 		SpringApplication.run(AuthorizationServiceApplication.class, args);
 	}
 
@@ -87,17 +81,14 @@ public class AuthorizationServiceApplication {
 				.authenticated()//
 			)//
 			.formLogin(Customizer.withDefaults()) //
-			.requiresChannel(c -> c.anyRequest().requiresSecure())//
+			// .requiresChannel(c -> c.anyRequest().requiresSecure())//
 			.build();
 	}
 
 	@Bean
-	InMemoryUserDetailsManager users(PasswordEncoder passwordEncoder, @Value("${debug:false}") boolean debug,
+	InMemoryUserDetailsManager users(PasswordEncoder passwordEncoder,
 			@Value("${AUTHORIZATION_SERVICE_USERS_JLONG_USERNAME:jlong}") String username,
 			@Value("${AUTHORIZATION_SERVICE_USERS_JLONG_PASSWORD:pw}") String password) {
-		// todo
-		if (debug)
-			log.debug("got the following users: " + username + ":" + password);
 		var user = User//
 			.withUsername(username)//
 			.password(passwordEncoder.encode(password))//
@@ -110,12 +101,10 @@ public class AuthorizationServiceApplication {
 	RegisteredClientRepository registeredClients(PasswordEncoder passwordEncoder,
 			@Value("${AUTHORIZATION_SERVICE_CLIENTS_MOGUL_CLIENT_ID:mogul}") String clientId,
 			@Value("${AUTHORIZATION_SERVICE_CLIENTS_MOGUL_CLIENT_SECRET:mogul}") String clientSecret,
-			@Value("${MOGUL_GATEWAY_HOST:http://127.0.0.1:1010}/login/oauth2/code/spring") URI redirectUri,
-			@Value("${debug:false}") boolean debug) {
-		// todo remove this
-		if (debug)
-			log.info("DEBUG: " + clientId + ":" + clientSecret + ":" + redirectUri);
-		var rc = RegisteredClient.withId(clientId)
+			@Value("${MOGUL_GATEWAY_HOST:http://127.0.0.1:1010}/login/oauth2/code/spring") URI redirectUri) {
+
+		var rc = RegisteredClient//
+			.withId(clientId)
 			.clientId(clientId)
 			.authorizationGrantTypes(c -> c
 				.addAll(Set.of(AuthorizationGrantType.AUTHORIZATION_CODE, AuthorizationGrantType.REFRESH_TOKEN)))//
